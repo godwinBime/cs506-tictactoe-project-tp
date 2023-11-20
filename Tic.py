@@ -72,7 +72,7 @@ class ComputerMoves:
             moves_file = open(file_to_clean, "w")
             moves_file.close()
 
-    def store_move_in_file(self, move_index, move_type):
+    def store_move_in_file(self, move_value, move_type):
         """
         :param move_index:
         :param move_type:
@@ -82,7 +82,7 @@ class ComputerMoves:
         """
 
         file_name = "tictactoe.txt"
-        move_value_and_type = str(move_index) + ":" + str(move_type)
+        move_value_and_type = str(move_type) + ":" + str(move_value)
         file_length = self.get_file_length(file_name)
         file_length = int(file_length)
         try:
@@ -121,6 +121,8 @@ class ComputerMoves:
                     move_row = (move - 1) // 5
                     move_col = (move - 1) % 5
                     if self.is_space_free(board, (move_row, move_col)):
+                        self.store_move_in_file(move, 'O')
+                        print(f"row and col: {move_row} and {move_col}")
                         return move_row, move_col
                     else:
                         print('That position has already been occupied!')
@@ -134,7 +136,112 @@ class ComputerMoves:
             row = random.randint(0, 4)
             col = random.randint(0, 4)
             if self.is_space_free(board, (row, col)):
+                self.get_AI_move_value(row, col)
                 return row, col
+
+    def get_AI_move_value(self, row_value, column_value):
+        row_value = int(row_value)
+        column_value = int(column_value)
+        if row_value == 0 and column_value == 0:
+            position = 1
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 0 and column_value == 1:
+            position = 2
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 0 and column_value == 2:
+            position = 3
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 0 and column_value == 3:
+            position = 4
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 0 and column_value == 4:
+            position = 5
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 1 and column_value == 0:
+            position = 6
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 1 and column_value == 1:
+            position = 7
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 1 and column_value == 2:
+            position = 8
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 1 and column_value == 3:
+            position = 9
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 1 and column_value == 4:
+            position = 10
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 2 and column_value == 0:
+            position = 11
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 2 and column_value == 1:
+            position = 12
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 2 and column_value == 2:
+            position = 13
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 2 and column_value == 3:
+            position = 14
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 2 and column_value == 4:
+            position = 15
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 3 and column_value == 0:
+            position = 16
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 3 and column_value == 1:
+            position = 17
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 3 and column_value == 2:
+            position = 18
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 3 and column_value == 3:
+            position = 19
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 3 and column_value == 4:
+            position = 20
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 4 and column_value == 0:
+            position = 21
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 4 and column_value == 1:
+            position = 22
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 4 and column_value == 2:
+            position = 23
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 4 and column_value == 3:
+            position = 24
+            self.store_move_in_file(position, 'X')
+            return ''
+        elif row_value == 4 and column_value == 4:
+            position = 25
+            self.store_move_in_file(position, 'X')
+            return ''
 
     def is_board_full(self, board):
         return all(board[i][j] != ' ' for i in range(5) for j in range(5))
