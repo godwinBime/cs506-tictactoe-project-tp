@@ -1,6 +1,7 @@
 import os
 import random
 
+
 class TicTacToeGame:
     BOARD_SIZE = 5
     FILE_NAME = "tictactoe.txt"
@@ -17,21 +18,21 @@ class TicTacToeGame:
         """
         os.system('cls' if os.name == 'nt' else 'clear')
 
-    def format_gameboard_view(self, board):
+    def _format_gameboard_view(self, board):
         for i in range(self.BOARD_SIZE):
             row_str = " | ".join(board[i])
             print(row_str)
             if i < self.BOARD_SIZE - 1:
                 print("-" * (4 * self.BOARD_SIZE - 1))
 
-    def print_game_board(self, board):
+    def _print_game_board(self, board):
         if self.is_new_game:
             self.is_new_game = False
         else:
             self.clear_old_console_output()
             print("\nAI just made a move.\nYour turn\n")
 
-        self.format_gameboard_view(board)
+        self._format_gameboard_view(board)
 
     def get_file_length(self, file_name):
         word_count = 0
@@ -56,7 +57,7 @@ class TicTacToeGame:
             with open(file_to_clean, "w") as moves_file:
                 pass
 
-    def store_move_in_file(self, move_value, move_type):
+    def _store_move_in_file(self, move_value, move_type):
         """
         :param move_index:
         :param move_type:
@@ -83,46 +84,48 @@ class TicTacToeGame:
 
     def check_winner(self, board, mark):
         for i in range(self.BOARD_SIZE):
-            if all(board[i][j] == mark for j in range(self.BOARD_SIZE)) or all(board[j][i] == mark for j in range(self.BOARD_SIZE)):
+            if all(board[i][j] == mark for j in range(self.BOARD_SIZE)) or all(
+                    board[j][i] == mark for j in range(self.BOARD_SIZE)):
                 return True
-        if all(board[i][i] == mark for i in range(self.BOARD_SIZE)) or all(board[i][self.BOARD_SIZE - 1 - i] == mark for i in range(self.BOARD_SIZE)):
+        if all(board[i][i] == mark for i in range(self.BOARD_SIZE)) or all(
+                board[i][self.BOARD_SIZE - 1 - i] == mark for i in range(self.BOARD_SIZE)):
             return True
         return False
 
-    def is_space_free(self, board, move):
+    def __is_space_free(self, board, move):
         row, col = move
         return board[row][col] == ' '
 
     def player_move(self, board):
         while True:
             try:
-                move = int(input('Enter your move (1-25): '))
+                move = int(input('\nEnter your move (1-25): '))
                 if 1 <= move <= self.BOARD_SIZE ** 2:
                     move_row = (move - 1) // self.BOARD_SIZE
                     move_col = (move - 1) % self.BOARD_SIZE
-                    if self.is_space_free(board, (move_row, move_col)):
-                        self.store_move_in_file(move, 'O')
+                    if self.__is_space_free(board, (move_row, move_col)):
+                        self._store_move_in_file(move, 'O')
                         return move_row, move_col
                     else:
-                        print('That position has already been occupied!')
+                        print('\nThat position has already been occupied!')
                 else:
-                    print(f'Please input a number within the range of 1 to {self.BOARD_SIZE ** 2}')
+                    print(f'\nPlease input a number within the range of 1 to {self.BOARD_SIZE ** 2}')
             except ValueError:
-                print('Please enter a valid number!')
+                print('\nPlease enter a valid number!')
 
     def ai_move(self, board):
         while True:
             row = random.randint(0, self.BOARD_SIZE - 1)
             col = random.randint(0, self.BOARD_SIZE - 1)
-            if self.is_space_free(board, (row, col)):
-                self.get_AI_move_value(row, col)
+            if self.__is_space_free(board, (row, col)):
+                self.__get_AI_move_value(row, col)
                 return row, col
 
-    def get_AI_move_value(self, row_value, column_value):
+    def __get_AI_move_value(self, row_value, column_value):
         position = row_value * self.BOARD_SIZE + column_value + 1
-        self.store_move_in_file(position, 'X')
+        self._store_move_in_file(position, 'X')
 
-    def is_board_full(self, board):
+    def __is_board_full(self, board):
         return all(board[i][j] != ' ' for i in range(self.BOARD_SIZE) for j in range(self.BOARD_SIZE))
 
     def play_game(self):
@@ -135,27 +138,28 @@ class TicTacToeGame:
             turn = game.who_will_go_first()
 
             print("\nWelcome to the 5x5 Tic Tac Toe game!\n")
-            print(f'The {turn} will go first.')
+            print(f'The {turn} will go first.\n')
 
             while True:
                 if turn == 'player':
-                    game.print_game_board(board)
+                    game._print_game_board(board)
                     move_row, move_col = game.player_move(board)
                     game.make_move(board, player, (move_row, move_col))
                 else:
                     move_row, move_col = game.ai_move(board)
                     game.make_move(board, AI, (move_row, move_col))
 
-                game.print_game_board(board)
+                game._print_game_board(board)
 
                 if game.check_winner(board, player if turn == 'player' else AI):
-                    print("Congratulations! You've won!" if turn == 'player' else "The AI has won!")
+                    print("\nCongratulations! You've won!" if turn == 'player' else "\nThe AI has won!")
                     return
-                elif game.is_board_full(board):
-                    print('The game is a tie!')
+                elif game.__is_board_full(board):
+                    print('\nThe game is a tie!')
                     return
                 else:
                     turn = 'AI' if turn == 'player' else 'player'
+
 
 if __name__ == "__main__":
     start_game = TicTacToeGame()
