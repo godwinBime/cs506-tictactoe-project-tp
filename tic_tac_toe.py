@@ -55,11 +55,11 @@ class TicTacToeGame:
         file_length = self.get_file_length(file_to_clean)
         if file_length > 0:
             with open(file_to_clean, "w") as moves_file:
-                pass
+                return " "
 
     def _store_move_in_file(self, move_value, move_type):
         """
-        :param move_index:
+        :param move_value:
         :param move_type:
         :return:
         store the move value X or O followed by the index
